@@ -13,12 +13,4 @@
     background: #e4ccac;
     border-radius: 20px;
 
-    a{
-        color:rgb(32, 32, 198);
-        cursor: pointer;
-    }
-
-    a:hover{
-        color: rgb(0, 0, 190);
-    }
 }

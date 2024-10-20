@@ -5,6 +5,7 @@ import {
   updatePassword,
   updateProfile,
   onAuthStateChanged,
+  sendEmailVerification,
 } from "firebase/auth";
 
 import firebaseApp from "./initialize";
@@ -35,6 +36,10 @@ export default async function singUp(email, password) {
 
     const user = userCredential.user;
 
+    // Send verification email
+    await sendEmailVerification(user);
+    console.log("Verification email sent!");
+
     return user;
   } catch (error) {
     const errorMessage = error.message;
@@ -43,8 +48,17 @@ export default async function singUp(email, password) {
   }
 }
 
-// Signed in
+// Email validations
+// export async function validateEmail(email){
+//   try {
+//     await sendSignInLinkToEmail(auth, email)
+//   } catch (error) {
+//     console.error(error.message);
+//     throw new Error("Email Exceed");
+//   }
+// }
 
+// Signed in (Login)
 export async function signIn(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(
@@ -54,10 +68,14 @@ export async function signIn(email, password) {
     );
     const user = userCredential.user;
 
+    if (!user.emailVerified){
+      throw new Error("Email is not verified. Please check your email.")
+    }
+
     return user;
   } catch (error) {
-    console.error(error.message);
-    throw new Error("wrong password");
+    // console.error(error.message);
+    throw new Error(error.message);
   }
 }
 

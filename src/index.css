@@ -16,12 +16,13 @@
 }
 
 a{
-  color: #ccc;
+  color:rgb(32, 32, 198);
+  cursor: pointer;
   text-decoration: none;
 }
 
 a:hover{
-  color: #fff;
+  color: rgb(0, 0, 190);
 }
 
 ul{

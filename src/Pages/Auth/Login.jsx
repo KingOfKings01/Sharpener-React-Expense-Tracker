@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import classes from './AuthForm.module.css';
 import {signIn} from '../../Firebase/authFun';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 
 export default function Login() {
@@ -70,7 +70,9 @@ export default function Login() {
 
             </section>
             <section className={classes.auth}>
+            <Link to="/sing-up">
                 Don&#39;t have an account? Sing up
+            </Link>
             </section>
 
             {isAuthenticate && <Navigate to='/' />}

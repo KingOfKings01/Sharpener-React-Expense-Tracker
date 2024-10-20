@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import classes from './AuthForm.module.css';
 import singUp from '../../Firebase/authFun';
+import { Link, Navigate } from 'react-router-dom';
 
 export default function SingUp() {
 
     const [message, setMessage] = useState("");
+    const [isAuthenticate, setIsAuthenticate] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,7 +25,9 @@ export default function SingUp() {
             setMessage("Sending request...");
 
             await singUp(email, password)
+            // await validateEmail(email)
 
+            setIsAuthenticate(true)
         } catch (error) {
             console.error(error);
             alert(error.message)
@@ -78,8 +82,12 @@ export default function SingUp() {
 
             </section>
             <section className={classes.auth}>
+                <Link to="/login">
                 Have an account? Login
+                </Link>
             </section>
+
+            {isAuthenticate && <Navigate to='/login' />}
         </>
     )
 }
