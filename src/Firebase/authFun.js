@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   updatePassword,
   updateProfile,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 import firebaseApp from "./initialize";
@@ -93,13 +94,19 @@ export async function updateUserProfile(name, photoURL) {
 
 // Get user Profile data
 
-export async function getUserProfile() {
-  try {
-    const user = auth.currentUser;
-    const userProfile = user.providerData[0];
 
-    console.log(userProfile);
-    return userProfile;
+export function getUserProfile() {
+  try {
+    return new Promise((resolve, reject) => {
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const userProfile = user.providerData[0];
+          resolve(userProfile);
+        } else {
+          reject(new Error("User not logged in."));
+        }
+      });
+    });
   } catch (error) {
     console.error(error);
     throw new Error("Error getting user profile");
