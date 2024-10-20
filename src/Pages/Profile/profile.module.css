@@ -1,0 +1,11 @@
+.formGroup{
+    margin: 10px 20vw;
+}
+
+.formControl{
+    display: flex;
+    input{
+        padding: 10px 20px;
+        width: 100%;
+    }
+}

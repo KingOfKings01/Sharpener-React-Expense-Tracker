@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   updatePassword,
+  updateProfile,
 } from "firebase/auth";
 
 import firebaseApp from "./initialize";
@@ -69,5 +70,38 @@ export async function setNewPassword(newPassword) {
   } catch (error) {
     console.log(error);
     throw new Error("Error updating password");
+  }
+}
+
+// Update Profile
+
+export async function updateUserProfile(name, photoURL) {
+  try {
+    const response = await updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photoURL,
+    });
+    console.log("Profile updated!");
+    console.log(response);
+
+    return response
+  } catch (error) {
+    console.log(error);
+    throw new Error("Error updating profile");
+  }
+}
+
+// Get user Profile data
+
+export async function getUserProfile() {
+  try {
+    const user = auth.currentUser;
+    const userProfile = user.providerData[0];
+
+    console.log(userProfile);
+    return userProfile;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error getting user profile");
   }
 }

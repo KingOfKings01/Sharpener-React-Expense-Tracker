@@ -2,7 +2,6 @@ import { useState } from 'react';
 import classes from './AuthForm.module.css';
 import singUp from '../../Firebase/authFun';
 
-
 export default function SingUp() {
 
     const [message, setMessage] = useState("");

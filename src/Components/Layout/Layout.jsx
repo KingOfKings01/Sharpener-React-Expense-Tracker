@@ -1,11 +1,12 @@
 // import MyNavbar from '../MainComponents/MyNavbar'
 // import Footer from '../MainComponents/Footer'
 import { Outlet } from "react-router-dom";
+import Navbar from "../Navbar/Navbar";
 
 export default function Layout() {
     return (
         <div>
-            {/* <MyNavbar /> */}
+            <Navbar />
             <main>
                 <Outlet />
             </main>
