@@ -1,29 +1,28 @@
 import { useState } from 'react';
 import classes from './AuthForm.module.css';
-import singUp from '../Firebase/authFun';
+import {signIn} from '../../Firebase/authFun';
+import { Navigate } from 'react-router-dom';
 
 
-export default function SingUp() {
+export default function Login() {
 
     const [message, setMessage] = useState("");
+    const [isAuthenticate, setIsAuthenticate] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const email = event.target.email.value
         const password = event.target.password.value
-        const passwordConfirmation = event.target.confirmPassword.value
-
-        if (password !== passwordConfirmation) {
-            alert("Passwords do not match");
-            return;
-        }
 
         try {
             // Sign up logic
             setMessage("Sending request...");
 
-            await singUp(email, password)
+            await signIn(email, password)
+
+            setIsAuthenticate(true);
+            // alert("User has successfully signed in!");
 
         } catch (error) {
             console.error(error);
@@ -40,7 +39,7 @@ export default function SingUp() {
     return (
         <>
             <section className={classes.auth}>
-                <h1>Sign Up</h1>
+                <h1>Login</h1>
                 <br />
 
                 <form onSubmit={handleSubmit}>
@@ -58,16 +57,8 @@ export default function SingUp() {
                             required
                         />
                     </div>
-                    <div className={classes.control}>
-                        {/* <label htmlFor='confirmPassword'>Confirm Password</label> */}
-                        <input
-                            type='password'
-                            name="confirmPassword"
-                            id='confirmPassword'
-                            placeholder='Confirm Password'
-                            required
-                        />
-                    </div>
+                   
+                    <p>Forgot password</p>
                     {message.length > 0 ?
                         <p>{message}</p>
                         :
@@ -79,8 +70,10 @@ export default function SingUp() {
 
             </section>
             <section className={classes.auth}>
-                Have an account? Login
+                Don&#39;t have an account? Sing up
             </section>
+
+            {isAuthenticate && <Navigate to='/' />}
         </>
     )
 }
