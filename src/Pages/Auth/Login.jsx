@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import classes from './AuthForm.module.css';
-import {signIn} from '../../Firebase/authFun';
+import { signIn } from '../../Firebase/authFun';
 import { Link, Navigate } from 'react-router-dom';
 
 
@@ -40,15 +40,12 @@ export default function Login() {
         <>
             <section className={classes.auth}>
                 <h1>Login</h1>
-                <br />
 
                 <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
-                        {/* <label htmlFor='email'>Your Email</label> */}
                         <input type='email' name="email" id='email' placeholder='Email' required />
                     </div>
                     <div className={classes.control}>
-                        {/* <label htmlFor='password'>Password</label> */}
                         <input
                             type='password'
                             name="password"
@@ -57,8 +54,11 @@ export default function Login() {
                             required
                         />
                     </div>
-                   
-                    <p>Forgot password</p>
+
+                    <Link to="/forgot-password">
+                        Forgot Password
+                    </Link>
+
                     {message.length > 0 ?
                         <p>{message}</p>
                         :
@@ -69,10 +69,11 @@ export default function Login() {
                 </form>
 
             </section>
+
             <section className={classes.auth}>
-            <Link to="/sing-up">
-                Don&#39;t have an account? Sing up
-            </Link>
+                <Link to="/sing-up">
+                    Don&#39;t have an account? Sing up
+                </Link>
             </section>
 
             {isAuthenticate && <Navigate to='/' />}

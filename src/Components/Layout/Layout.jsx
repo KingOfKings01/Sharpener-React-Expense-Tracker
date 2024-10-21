@@ -8,6 +8,7 @@ export default function Layout() {
         <div>
             {location.pathname !== '/login'
                 && location.pathname !== '/sing-up'
+                && location.pathname !== '/forgot-password'
                 && <Navbar />}
             <main>
                 <Outlet />

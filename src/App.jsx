@@ -4,6 +4,7 @@ import Login from "./Pages/Auth/Login"
 import Layout from "./Components/Layout/Layout"
 import Home from "./Pages/Home/Home"
 import Profile from "./Pages/Profile/Profile"
+import ForgotPassword from "./Pages/Auth/ForgotPassword"
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
               <Route path="/login" element={<Login/>} />
               <Route path="/sing-up" element={<SingUp />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="*" element={<h1>Page not found 404</h1>} />
             </Route>
           </Routes>

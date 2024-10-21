@@ -44,7 +44,6 @@ export default function SingUp() {
         <>
             <section className={classes.auth}>
                 <h1>Sign Up</h1>
-                <br />
 
                 <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
