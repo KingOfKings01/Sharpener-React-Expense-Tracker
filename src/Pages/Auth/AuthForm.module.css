@@ -12,11 +12,10 @@
 .auth h1 {
   text-align: center;
   margin: 20px 0 30px;
-  /* color: white; */
 }
 
 p{
-  /* color: white; */
+  margin-top: 10px;
 }
 
 .control {
