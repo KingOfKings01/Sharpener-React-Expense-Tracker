@@ -6,6 +6,7 @@ import {
   updateProfile,
   onAuthStateChanged,
   sendEmailVerification,
+  signOut,
 } from "firebase/auth";
 
 import firebaseApp from "./initialize";
@@ -48,16 +49,6 @@ export default async function singUp(email, password) {
   }
 }
 
-// Email validations
-// export async function validateEmail(email){
-//   try {
-//     await sendSignInLinkToEmail(auth, email)
-//   } catch (error) {
-//     console.error(error.message);
-//     throw new Error("Email Exceed");
-//   }
-// }
-
 // Signed in (Login)
 export async function signIn(email, password) {
   try {
@@ -71,16 +62,23 @@ export async function signIn(email, password) {
     if (!user.emailVerified){
       throw new Error("Email is not verified. Please check your email.")
     }
-
     return user;
   } catch (error) {
-    // console.error(error.message);
     throw new Error(error.message);
   }
 }
 
-// Update password
+// Logout
+export async function logout() {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error("Error logging out:", error.message);
+    throw new Error("Logout failed");
+  }
+}
 
+// Update password
 export async function setNewPassword(newPassword) {
   try {
     const response = await updatePassword(auth.currentUser, newPassword);

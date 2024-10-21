@@ -8,9 +8,28 @@
     justify-content: space-between;
 }
 
+.actions{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .profileAction{
     padding: 5px 10px;
     background: #e4ccac;
     border-radius: 20px;
+}
 
+.logout{
+    cursor: pointer;
+    color: white;
+    background: #dc2c2c;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.logout:hover{
+    background-color: #db5050;
 }

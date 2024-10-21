@@ -1,16 +1,18 @@
-// import MyNavbar from '../MainComponents/MyNavbar'
-// import Footer from '../MainComponents/Footer'
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
 export default function Layout() {
+    const location = useLocation();
+
     return (
         <div>
-            <Navbar />
+            {location.pathname !== '/login'
+                && location.pathname !== '/sing-up'
+                && <Navbar />}
             <main>
                 <Outlet />
             </main>
             {/* <Footer /> */}
         </div>
-    )
+    );
 }
