@@ -1,0 +1,94 @@
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  
+  transform: translate(-50%, -50%);
+  
+  width: 50vw;
+  padding: 20px;
+  background-color: #f2f2f2;
+  color: #000;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: transform 0.3s ease-in-out;
+  
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  .bold {
+    font-weight: bold;
+  }
+  
+  input, select{
+    padding: 5px 10px;
+    font-size: medium;
+    width: 200px;
+    border: 1px solid #ccc;
+  }
+  
+  .submit{
+    background-color: #fff;
+    color: #277708;
+    border: 1px solid #277708;
+  }
+
+  .submit:hover{
+    background-color: #277708;
+    color: #fff;  
+  }
+  .cancel{
+    background-color: #fff;
+    color: #771f08;
+    border: 1px solid #771f08;
+  }
+
+  .cancel:hover{
+    background-color: #771f08;
+    color: #fff;  
+  }
+
+  .actions{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    
+    button{
+      font-size: medium;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition-duration: 0.5s;
+    }
+    
+  }
+
+  .totalAmount {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btns {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+}
+
+
+@media (width <= 700px){
+  .modal {
+    width: 80vw;
+  } 
+}

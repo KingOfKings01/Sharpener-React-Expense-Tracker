@@ -1,4 +1,4 @@
-import { child, get, getDatabase, ref, set } from "firebase/database";
+import { child, get, getDatabase, ref, remove, set, update } from "firebase/database";
 import firebaseApp from "./initialize";
 
 const database = getDatabase(firebaseApp);
@@ -26,11 +26,31 @@ export const addExpense = async (expense) => {
       if (snapshot.exists()) {
         return snapshot.val();
       } else {
-        console.log("No expenses found");
         return [];
       }
     } catch (err) {
       console.error("Error getting expenses: ", err);
+      throw err.message;
+    }
+  };
+
+  export const updateExpense = async (expenseId, updatedExpense) => {
+    try {
+      const updates = {};
+      updates['/expenses/' + expenseId] = updatedExpense;
+      await update(ref(database), updates);
+      return updatedExpense;
+    } catch (err) {
+      console.error("Error updating expense: ", err);
+      throw err.message;
+    }
+  };
+
+  export const deleteExpense = async (expenseId) => {
+    try {
+      await remove(ref(database, 'expenses/' + expenseId));  
+    } catch (err) {
+      console.error("Error deleting expense: ", err);
       throw err.message;
     }
   };

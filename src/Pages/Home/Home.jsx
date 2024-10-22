@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import classes from "./home.module.css";
-import { addExpense, getAllExpenses } from '../../Firebase/expenseFun';
+import { addExpense, deleteExpense, getAllExpenses, updateExpense } from '../../Firebase/expenseFun';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ export default function Home() {
 
   const [expenseList, setExpenseList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchExpenses();
@@ -38,13 +39,49 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const id = await addExpense(formData);
-      setExpenseList([...expenseList, { ...formData, id }]);
+      if (isEditing) {
+        await updateExpense(formData.id, formData);
+
+        const updatedExpenses = expenseList.map(expense => {
+          if (expense.id === formData.id) {
+            return {...expense,...formData };
+          }
+          return expense;
+        })
+
+        setExpenseList(updatedExpenses);
+        setIsEditing(false);
+      } else {
+        const id = await addExpense(formData);
+        setExpenseList([...expenseList, { ...formData, id }]);
+      }
       setFormData({ amount: '', category: 'Food', description: '' });
     } catch (err) {
       console.error(err.message);
     }
   };
+
+  const handleUpdate = async (expense) => {
+    setIsEditing(true);
+    setFormData(expense);
+  }
+
+  const handleCancelEditing = async () => {
+    setIsEditing(false);
+    setFormData({ amount: '', category: 'Food', description: '' });
+  }
+
+  const handleDelete = async (expenseId) => {
+    try {
+      await deleteExpense(expenseId);
+
+      const updatedExpenses = expenseList.filter(expense => expense.id!== expenseId);
+      setExpenseList(updatedExpenses);
+    
+    } catch (err) {
+      console.log(err.message);
+    }
+  }
 
   return (
     <section className={classes.container}>
@@ -91,7 +128,10 @@ export default function Home() {
               onChange={handleChange}
             ></textarea>
           </div>
-          <button type="submit" className={classes.submit}>Submit</button>
+          <div className={classes.buttonGroup}>
+            <button type="submit" className={classes.submit}>{isEditing ? "Update" : "Submit"} </button>
+            {isEditing && <button type='button' className={classes.cancel} onClick={handleCancelEditing}>Cancel</button>}
+          </div>
         </form>
       </section>
       <section>
@@ -105,14 +145,21 @@ export default function Home() {
                 <th>Amount</th>
                 <th>Category</th>
                 <th>Description</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {expenseList.map((expense, index) => (
-                <tr key={index}>
+              {expenseList.map((expense) => (
+                <tr key={expense.id}>
                   <td>{expense.amount}</td>
                   <td>{expense.category}</td>
                   <td>{expense.description}</td>
+                  <td>
+                    <div className={classes.buttonGroup}>
+                      <button className={classes.edit} onClick={() => handleUpdate(expense)}>Edit</button>
+                      <button className={classes.delete} onClick={() => handleDelete(expense.id)}>Delete</button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>

@@ -7,7 +7,6 @@ export default function Navbar() {
     const [isAuthenticate, setIsAuthenticate] = useState(false);
     
     const handleLogout = () => {
-        
         logout()
         // TODO: Redirect to login
         setIsAuthenticate(true)
