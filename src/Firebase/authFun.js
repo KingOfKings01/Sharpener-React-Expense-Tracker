@@ -2,7 +2,6 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updatePassword,
   updateProfile,
   onAuthStateChanged,
   sendEmailVerification,
