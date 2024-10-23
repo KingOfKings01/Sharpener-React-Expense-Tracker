@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import classes from "./home.module.css";
 import { addExpense, deleteExpense, getAllExpenses, updateExpense } from '../../Firebase/expenseFun';
+import { useDispatch, useSelector } from 'react-redux';
+import { setExpenses } from '../../Store/expenseSlice';
+// import { setExpenses } from './store/expenseSlice';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -8,6 +11,10 @@ export default function Home() {
     category: 'Food',
     description: ''
   });
+
+  const dispatch = useDispatch();
+  const { expenses, totalAmount } = useSelector((state) => state.expenses);
+
 
   const [expenseList, setExpenseList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +28,8 @@ export default function Home() {
     setIsLoading(true);
     try {
       const expenses = await getAllExpenses();
+      dispatch(setExpenses(Object.values(expenses)));
+
       setExpenseList(Object.values(expenses)); // Ensure expenses are set correctly
     } catch (error) {
       console.error(error.message);
@@ -165,6 +174,8 @@ export default function Home() {
             </tbody>
           </table>
         )}
+
+        {totalAmount}
       </section>
     </section>
   );

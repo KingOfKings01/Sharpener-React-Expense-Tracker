@@ -2,12 +2,14 @@ import { useState } from 'react';
 import classes from './AuthForm.module.css';
 import singUp from '../../Firebase/authFun';
 import { Link, Navigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUid } from '../../Store/authSlice';
 
 export default function SingUp() {
 
     const [message, setMessage] = useState("");
     const [isAuthenticate, setIsAuthenticate] = useState(false);
-
+    const dispatch = useDispatch();
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -24,8 +26,8 @@ export default function SingUp() {
             // Sign up logic
             setMessage("Sending request...");
 
-            await singUp(email, password)
-            // await validateEmail(email)
+            const userUid = await singUp(email, password)
+            dispatch(setUid(userUid));
 
             setIsAuthenticate(true)
         } catch (error) {

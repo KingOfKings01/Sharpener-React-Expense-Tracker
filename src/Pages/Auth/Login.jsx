@@ -2,12 +2,14 @@ import { useState } from 'react';
 import classes from './AuthForm.module.css';
 import { signIn } from '../../Firebase/authFun';
 import { Link, Navigate } from 'react-router-dom';
+import { setUid } from '../../Store/authSlice';
+import { useDispatch } from 'react-redux';
 
 
 export default function Login() {
-
     const [message, setMessage] = useState("");
     const [isAuthenticate, setIsAuthenticate] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -19,7 +21,9 @@ export default function Login() {
             // Sign up logic
             setMessage("Sending request...");
 
-            await signIn(email, password)
+            const userUid = await signIn(email, password)
+
+            dispatch(setUid(userUid));
 
             setIsAuthenticate(true);
             // alert("User has successfully signed in!");

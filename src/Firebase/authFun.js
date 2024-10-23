@@ -42,7 +42,7 @@ export default async function singUp(email, password) {
     await sendEmailVerification(user);
     console.log("Verification email sent!");
 
-    return user;
+    return user.uid;
   } catch (error) {
     const errorMessage = error.message;
     console.log(errorMessage);
@@ -63,7 +63,8 @@ export async function signIn(email, password) {
     if (!user.emailVerified){
       throw new Error("Email is not verified. Please check your email.")
     }
-    return user;
+
+    return user.uid;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -73,6 +74,8 @@ export async function signIn(email, password) {
 export async function logout() {
   try {
     await signOut(auth);
+
+    
   } catch (error) {
     console.error("Error logging out:", error.message);
     throw new Error("Logout failed");

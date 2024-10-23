@@ -8,21 +8,20 @@ import ForgotPassword from "./Pages/Auth/ForgotPassword"
 
 
 function App() {
-
   return (
     <>
-    <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/login" element={<Login/>} />
-              <Route path="/sing-up" element={<SingUp />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="*" element={<h1>Page not found 404</h1>} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sing-up" element={<SingUp />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="*" element={<h1>Page not found 404</h1>} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
