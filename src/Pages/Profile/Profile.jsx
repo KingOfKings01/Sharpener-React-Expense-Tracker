@@ -12,21 +12,21 @@ export default function Profile() {
 
     useEffect(() => {
         fetchUserProfile()
-    })
+    }, [])
 
     async function fetchUserProfile() {
         setIsLoading(true);
+
         try {
-            const data = await getUserProfile()
-            if (data) {
-                setFName(data.displayName);
-                setImgUrl(data.photoURL);
-            } else {
-                throw new Error('No user profile data found');
-            }
+            const { displayName, photoURL } = await getUserProfile()
+
+            setFName(displayName || "");
+            setImgUrl(photoURL || "");
+
         } catch (error) {
             console.error(error.message)
         }
+
         setIsLoading(false);
     }
 
@@ -34,12 +34,17 @@ export default function Profile() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        console.log({ fName, imgUrl });
+        // console.log({ fName, imgUrl });
+
+        if (!fName || !imgUrl)
+            return alert('Please enter all fields')
 
         await updateUserProfile(fName, imgUrl);
 
-        setFName('');
-        setImgUrl('');
+        alert("Profile updated successfully!")
+
+        // setFName('');
+        // setImgUrl('');
     };
 
     return (

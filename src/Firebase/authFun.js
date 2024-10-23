@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
   signOut,
   sendPasswordResetEmail,
-  fetchSignInMethodsForEmail,
+  // fetchSignInMethodsForEmail,
 } from "firebase/auth";
 
 import firebaseApp from "./initialize";
@@ -85,10 +85,11 @@ export async function logout() {
 // get password reset link on email
 export async function forgotPassword(email) {
   try {
-    const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-    if (signInMethods.length === 0) {
-      throw new Error("No user found with this email.");
-    }
+    // const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+
+    // if (signInMethods.length === 0) {
+    //   throw new Error("No user found with this email.");
+    // }
 
     await sendPasswordResetEmail(auth, email);
     const message = "Password reset link is sent to mail: " + email;
@@ -103,10 +104,12 @@ export async function forgotPassword(email) {
 
 export async function updateUserProfile(name, photoURL) {
   try {
+
     const response = await updateProfile(auth.currentUser, {
       displayName: name,
       photoURL: photoURL,
     });
+
     console.log("Profile updated!");
     console.log(response);
 

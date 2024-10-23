@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import classes from "./home.module.css";
 import { addExpense, deleteExpense, getAllExpenses, updateExpense } from '../../Firebase/expenseFun';
 import { useDispatch, useSelector } from 'react-redux';
-import { setExpenses } from '../../Store/expenseSlice';
+import { setExpenses, setTotalExpenses } from '../../Store/expenseSlice';
+import { Navigate } from 'react-router-dom';
 // import { setExpenses } from './store/expenseSlice';
 
 export default function Home() {
@@ -14,23 +15,36 @@ export default function Home() {
 
   const dispatch = useDispatch();
   const { expenses, totalAmount } = useSelector((state) => state.expenses);
+  const { uid } = useSelector((state) => state.auth);
 
-
-  const [expenseList, setExpenseList] = useState([]);
+  const [expenseList, setExpenseList] = useState(expenses);
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const { isDarkMode, isPremium } = useSelector((state) => state.premium);
 
   useEffect(() => {
     fetchExpenses();
   }, []); // Run fetchExpenses only once on mount
 
+  if (!uid) {
+    return <Navigate to='/login' />
+  }
+
   async function fetchExpenses() {
     setIsLoading(true);
     try {
-      const expenses = await getAllExpenses();
-      dispatch(setExpenses(Object.values(expenses)));
+      const expensesObj = await getAllExpenses();
+
+      const expenses = Object.values(expensesObj)
+
+      dispatch(setExpenses(expenses));
 
       setExpenseList(Object.values(expenses)); // Ensure expenses are set correctly
+
+      const totalExpenses = expenses.reduce((amount, expense) => amount + +(expense.amount), 0)
+
+      dispatch(setTotalExpenses(totalExpenses));
     } catch (error) {
       console.error(error.message);
     }
@@ -53,10 +67,11 @@ export default function Home() {
 
         const updatedExpenses = expenseList.map(expense => {
           if (expense.id === formData.id) {
-            return {...expense,...formData };
+            return { ...expense, ...formData };
           }
           return expense;
         })
+
 
         setExpenseList(updatedExpenses);
         setIsEditing(false);
@@ -64,6 +79,10 @@ export default function Home() {
         const id = await addExpense(formData);
         setExpenseList([...expenseList, { ...formData, id }]);
       }
+
+
+      dispatch(setTotalExpenses(totalAmount + +(formData.amount)));
+
       setFormData({ amount: '', category: 'Food', description: '' });
     } catch (err) {
       console.error(err.message);
@@ -84,18 +103,38 @@ export default function Home() {
     try {
       await deleteExpense(expenseId);
 
-      const updatedExpenses = expenseList.filter(expense => expense.id!== expenseId);
+      const amount = expenseList.find(expense => expense.id === expenseId).amount;
+
+      const updatedExpenses = expenseList.filter(expense => expense.id !== expenseId);
       setExpenseList(updatedExpenses);
-    
+
+      dispatch(setTotalExpenses(totalAmount - +(amount)));
     } catch (err) {
       console.log(err.message);
     }
   }
 
+  const downloadCSV = () => {
+    const csvRows = [
+      ['Amount', 'Category', 'Description'],
+      ...expenseList.map(expense => [expense.amount, expense.category, expense.description])
+    ];
+
+    const csvContent = csvRows.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'expenses.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   return (
-    <section className={classes.container}>
+    <section className={`${classes.container} ${isDarkMode && classes.darkMode}`}>
       <section>
-        <form className={classes.formController} id="expenseForm" onSubmit={handleSubmit}>
+        <form className={`${classes.formController} ${isDarkMode && classes.darkMode}`} id="expenseForm" onSubmit={handleSubmit}>
           <div className="inputs">
             <div className={classes.row}>
               <div className={classes.inputController}>
@@ -134,6 +173,7 @@ export default function Home() {
               name="description"
               rows="4"
               value={formData.description}
+
               onChange={handleChange}
             ></textarea>
           </div>
@@ -172,10 +212,22 @@ export default function Home() {
                 </tr>
               ))}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="3">Total Expenses</td>
+                <td>{totalAmount}</td>
+              </tr>
+            </tfoot>
           </table>
         )}
 
-        {totalAmount}
+        {!(expenseList.length > 0) &&
+          <p>No expenses found.</p>
+        }
+        {
+          isPremium &&
+          <button onClick={downloadCSV} className={classes.downloadButton}>Download CSV</button>
+        }
       </section>
     </section>
   );

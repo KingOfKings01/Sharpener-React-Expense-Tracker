@@ -27,14 +27,14 @@ export default function Login() {
 
             setIsAuthenticate(true);
             // alert("User has successfully signed in!");
-
+            
+            event.target.reset();
         } catch (error) {
             console.error(error);
             alert(error.message)
         }
 
         setMessage("");
-        event.target.reset();
 
         console.log("User has successfully signed up!");
     }
