@@ -1,11 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SingUp from "./Pages/Auth/SingUp"
 import Login from "./Pages/Auth/Login"
 import Layout from "./Components/Layout/Layout"
 import Home from "./Pages/Home/Home"
 import Profile from "./Pages/Profile/Profile"
 import ForgotPassword from "./Pages/Auth/ForgotPassword"
-
 
 function App() {
   return (
@@ -22,8 +21,9 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+
     </>
-  )
+  );
 }
 
-export default App
+export default App;
