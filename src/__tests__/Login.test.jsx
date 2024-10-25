@@ -3,6 +3,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Login from '../Pages/Auth/Login';
 import store from '../Store/store';
+import { signIn } from '../Firebase/authFun';
+import { setUid } from '../Store/authSlice';
 
 jest.mock('../Firebase/authFun');
 jest.mock('../Store/authSlice', () => ({
@@ -86,3 +88,26 @@ test('renders Login component and handles form submission', () => {
     expect(emailInput.value).toBe('test@example.com');
     expect(passwordInput.value).toBe('password123');
 });
+
+test('handles form submission', async () => {
+    signIn.mockResolvedValue('fake-uid');
+  
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <Login />
+        </BrowserRouter>
+      </Provider>
+    );
+  
+    fireEvent.change(screen.getByPlaceholderText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByPlaceholderText(/password/i), { target: { value: 'password123' } });
+    fireEvent.click(screen.getByRole('button', { name: /sign up/i }));
+  
+    await waitFor(() => {
+      expect(signIn).toHaveBeenCalledWith('test@example.com', 'password123');
+      expect(setUid).toHaveBeenCalledWith('fake-uid');
+    });
+  
+    expect(screen.queryByText(/sending request/i)).not.toBeInTheDocument();
+  });
