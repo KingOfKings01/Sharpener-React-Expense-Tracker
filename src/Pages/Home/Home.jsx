@@ -4,7 +4,6 @@ import { addExpense, deleteExpense, getAllExpenses, updateExpense } from '../../
 import { useDispatch, useSelector } from 'react-redux';
 import { setExpenses, setTotalExpenses } from '../../Store/expenseSlice';
 import { Navigate } from 'react-router-dom';
-// import { setExpenses } from './store/expenseSlice';
 
 export default function Home() {
   const [formData, setFormData] = useState({

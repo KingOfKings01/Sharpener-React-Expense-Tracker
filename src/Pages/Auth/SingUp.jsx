@@ -49,11 +49,9 @@ export default function SingUp() {
 
                 <form onSubmit={handleSubmit}>
                     <div className={classes.control}>
-                        {/* <label htmlFor='email'>Your Email</label> */}
                         <input type='email' name="email" id='email' placeholder='Email' required />
                     </div>
                     <div className={classes.control}>
-                        {/* <label htmlFor='password'>Password</label> */}
                         <input
                             type='password'
                             name="password"
@@ -63,7 +61,6 @@ export default function SingUp() {
                         />
                     </div>
                     <div className={classes.control}>
-                        {/* <label htmlFor='confirmPassword'>Confirm Password</label> */}
                         <input
                             type='password'
                             name="confirmPassword"
