@@ -5,60 +5,71 @@ import SingUp from '../Pages/Auth/SingUp';
 import store from '../Store/store';
 
 test('renders head line', () => {
-  render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <SingUp />
-      </BrowserRouter>
-    </Provider>
-  );
-
-  expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
+    // Arrange
+    render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <SingUp />
+            </BrowserRouter>
+        </Provider>
+    );
+    // Act...
+    // Assert
+    expect(screen.getByText(/Sign Up/i)).toBeInTheDocument();
 });
 test('renders email input field', () => {
-  render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <SingUp />
-      </BrowserRouter>
-    </Provider>
-  );
-
-  expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
+    // Arrange
+    render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <SingUp />
+            </BrowserRouter>
+        </Provider>
+    );
+    // Act...
+    // Assert
+    expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
 });
 
 test('renders password input field', () => {
-  render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <SingUp />
-      </BrowserRouter>
-    </Provider>
-  );
-
-  expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
+    // Arrange
+    render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <SingUp />
+            </BrowserRouter>
+        </Provider>
+    );
+    // Act...
+    // Assert
+    expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
 });
 
 test('renders confirm password input field', () => {
-  render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <SingUp />
-      </BrowserRouter>
-    </Provider>
-  );
-
-  expect(screen.getByPlaceholderText(/confirm password/i)).toBeInTheDocument();
+    // Arrange
+    render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <SingUp />
+            </BrowserRouter>
+        </Provider>
+    );
+    // Act...
+    // Assert
+    expect(screen.getByPlaceholderText(/confirm password/i)).toBeInTheDocument();
 });
 
 test('renders Sign Up button', () => {
-  render(
-    <Provider store={store}>
-      <BrowserRouter>
-        <SingUp />
-      </BrowserRouter>
-    </Provider>
-  );
+    // Arrange
+    render(
+        <Provider store={store}>
+            <BrowserRouter>
+                <SingUp />
+            </BrowserRouter>
+        </Provider>
+    );
 
-  expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
+    // Act...
+    // Assert
+    expect(screen.getByRole('button', { name: /sign up/i })).toBeInTheDocument();
 });
